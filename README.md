@@ -1,43 +1,91 @@
-# 🚗 Mercedes-Benz Analytics & Interactive Dashboard
+# 🚗 Mercedes-Benz Data Analysis & Interactive Dashboard | Python
 
-An end-to-end data analysis and interactive dashboard project built in Python, leveraging powerful data manipulation and visualization libraries to analyze Mercedes-Benz car listings, pricing trends, and vehicle specifications.
-
----
-
-## 📊 Project Overview
-This project processes a dataset of Mercedes-Benz vehicles to uncover insights regarding vehicle pricing, mileage distribution, fuel efficiency, and model performance. Using **Python**, **Pandas**, and **Plotly**, an interactive multi-panel dashboard was designed with a custom dark mode aesthetic to provide a seamless analytical experience.
+## Project Overview
+This project performs an end-to-end data analysis on a Mercedes-Benz pre-owned cars dataset using **Python (Pandas, NumPy, Matplotlib, Seaborn, and Plotly)**. The primary objective is to clean messy raw data, handle missing values and outliers, explore relationships between car features (model, mileage, price, fuel type, horsepower), and build a fully interactive dark-themed analytics dashboard.
 
 ---
 
-## 🛠️ Tech Stack & Libraries
-* **Language:** Python
-* **Data Processing & Cleaning:** Pandas, NumPy
-* **Data Visualization & Dashboarding:** Plotly (Express & Graph Objects), Matplotlib, Seaborn
-* **Environment:** Jupyter Notebook / VS Code
+## 📊 Dataset Description
+The dataset (`mercedes_cars.csv`) features listing records for various Mercedes-Benz models with the following core attributes:
+
+| Column | Description |
+| :--- | :--- |
+| **model** | Mercedes-Benz car model (e.g., C-Class, S-Class, A-Class, GLC, CLA) |
+| **year** | Manufacturing year of the vehicle |
+| **price_eur** | Listing price in Euros (€) |
+| **mileage_km** | Total distance driven in kilometers |
+| **fuel_type** | Engine fuel classification (Petrol, Diesel, Hybrid) |
+| **transmission** | Transmission mechanism (Automatic, Manual) |
+| **engine_size_l** | Engine displacement capacity in liters |
+| **horsepower** | Vehicle engine power output (HP) |
+| **previous_owners** | Number of past vehicle owners |
 
 ---
 
-## 🔍 Key Data Pipeline Steps
-1. **Data Loading & Inspection:** Loaded the Mercedes dataset and checked for data types, missing values, and structure.
-2. **Data Cleaning:** 
-   * Handled and dropped duplicate records.
-   * Imputed missing numerical values using medians and categorical values using modes.
-3. **Outlier Treatment:** Applied Interquartile Range (IQR) capping to numerical features (`price_eur`, `mileage_km`, `horsepower`, etc.) to stabilize distributions.
-4. **Feature Engineering & Renaming:** Standardized columns and prepared metrics for dashboard aggregation.
+## 🛠️ Tools & Libraries Used
+* **Python 3.x**
+* **Pandas & NumPy:** Data wrangling, missing value imputation, IQR outlier capping, and feature transformation.
+* **Matplotlib & Seaborn:** Exploratory Data Analysis (EDA) and distribution visualizations (Histograms, Boxplots).
+* **Plotly (Express & Graph Objects):** Custom multi-panel interactive dark-themed HTML dashboard (`plotly_dark`).
+* **VS Code / Jupyter Notebook**
 
 ---
 
-## 📈 Dashboard Features (`Mercedes Analytics Dashboard`)
-The interactive Plotly dashboard features a sleek dark mode theme (`plotly_dark`) displaying:
-* **KPI Cards:** Total Market Price (`$135.5M`), Average Mileage (`81.1k km`), and Average Previous Owners.
-* **Price Analysis:** Breakdown of average prices across manufacturing years and models.
-* **Mileage vs. Price:** Interactive scatter plot visualizing the correlation between vehicle mileage and listing price across various models.
-* **Fuel Type & Horsepower Distribution:** Visual proportions of fuel types and engine performance metrics.
+## 🔄 Project Workflow & Methodology
+
+### 1. Data Understanding & Inspection
+* Inspected dataset shape, data types, duplicate counts, and structural completeness using `.info()`, `.describe()`, and `.isnull().sum()`.
+
+### 2. Data Cleaning & Preprocessing
+* **Duplicate Removal:** Identified and dropped duplicate listings using `drop_duplicates()`.
+* **Missing Value Imputation:**
+  * Imputed missing numerical variables (`price_eur`, `mileage_km`, `engine_size_l`, `horsepower`, `previous_owners`) using their respective column **medians**.
+  * Imputed missing categorical columns (`transmission`, `fuel_type`) using their statistical **mode**.
+* **Outlier Capping (IQR Method):**
+  * Calculated Interquartile Range ($IQR = Q3 - Q1$) across numerical columns.
+  * Applied upper and lower boundary capping via `.clip()` to manage extreme variance without dropping observation rows.
+* **Column Standardization:** Renamed features for consistent analysis mapping (`fuel_type` $\rightarrow$ `fuelType`, `mileage_km` $\rightarrow$ `mileage`).
+
+### 3. Exploratory Data Analysis (EDA) & Dashboard Architecture
+* Constructed an interactive 6-chart grid layout dashboard using Plotly subplots (`plotly_dark` theme):
+  1. **Avg Price Over Year:** Bar chart evaluating historical vehicle pricing trends.
+  2. **Total Price by Model:** Trend visualization mapping valuation distribution across models.
+  3. **Price vs Mileage:** Interactive scatter plot displaying negative price degradation relative to driven distance.
+  4. **Fuel Type Share:** Donut/Pie visual tracking Petrol, Diesel, and Hybrid model proportions.
+  5. **Price vs KM Gauge/Visuals:** Performance metrics comparing driven distance against market value.
+  6. **Horsepower Distribution:** Performance gauge visual capturing engine HP spread.
+
+### 4. KPI Summary
+Key aggregated metrics showcased at the header of the interactive dashboard:
+* **Total Market Price:** ~$135.5M
+* **Average Mileage:** 81.1k km
+* **Average Previous Owners:** 2 Owners
 
 ---
 
-## 🚀 How to Run
-1. Clone the repository or open the notebook in VS Code / Jupyter Notebook.
-2. Ensure required libraries are installed:
+## 💡 Key Insights
+* **Mileage Depreciation:** Strong inverse correlation observed between vehicle mileage (`mileage_km`) and listing price (`price_eur`)—higher mileage listings systematically record lower market valuations.
+* **Model Valuation:** Flagship luxury lines like S-Class and AMG-GT retain significantly higher median resale values compared to entry-tier A-Class and CLA models.
+* **Fuel Type Distribution:** Diesel and Petrol variants dominate pre-owned listings, with Hybrid models steadily gaining market representation in recent year models.
+* **Owner Impact:** Vehicles with single previous ownership maintain higher price resilience compared to vehicles with 3+ prior owners.
+
+---
+
+## ⚠️ Limitations
+* **Imputation Smoothing:** Median imputation preserves distribution medians but slightly compresses variance in tail distributions.
+* **Correlation vs. Causation:** The correlation between mileage, vehicle year, and price reflects market association rather than strict single-factor causality.
+
+---
+
+## 🎯 Business Value
+* **Pricing Strategy Optimization:** Provides dealership networks and pricing teams with empirical benchmarking for pre-owned valuation based on mileage, age, and horsepower.
+* **Inventory Allocation:** Enables clear visibility into high-demand models, fuel preferences, and sweet spots for inventory acquisition.
+
+---
+
+## ⚙️ How to Run
+
+1. **Clone the repository:**
    ```bash
-   pip install pandas numpy matplotlib seaborn plotly
+   git clone [https://github.com/mohamed-gouda74/mercedes_dashboard.git](https://github.com/mohamed-gouda74/mercedes_dashboard.git)
+   cd mercedes_dashboard
